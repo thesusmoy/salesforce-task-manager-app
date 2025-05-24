@@ -1,0 +1,53 @@
+<template>
+    <lightning-card title="Task Manager">
+        <div class="slds-p-around_medium">
+            <lightning-button label="New Task" onclick={handleNewTask} class="slds-m-bottom_small"></lightning-button>
+            <template if:true={tasks}>
+                <lightning-datatable key-field="id" data={tasks} columns={columns} onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+            <template if:true={showModal}>
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 class="slds-modal__title">{modalTitle}</h2>
+                        </header>
+                        <div class="slds-modal__content">
+                            <lightning-input
+                                label="Title"
+                                value={task.Title__c}
+                                onchange={handleTitleChange}
+                            ></lightning-input>
+                            <lightning-textarea
+                                label="Description"
+                                value={task.Description__c}
+                                onchange={handleDescriptionChange}
+                            ></lightning-textarea>
+                            <lightning-combobox
+                                label="Status"
+                                value={task.Status__c}
+                                options={statusOptions}
+                                onchange={handleStatusChange}
+                            ></lightning-combobox>
+                            <lightning-input
+                                type="date"
+                                label="Due Date"
+                                value={task.Due_Date__c}
+                                onchange={handleDueDateChange}
+                            ></lightning-input>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button
+                                variant="neutral"
+                                label="Cancel"
+                                onclick={handleCancel}
+                            ></lightning-button>
+                            <lightning-button variant="brand" label="Save" onclick={handleSave}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
